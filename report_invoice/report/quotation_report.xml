@@ -1,0 +1,328 @@
+<odoo>
+    <data>
+
+        <template id="external_layout_header1" inherit_id="report.external_layout_header">
+          <xpath expr="//div[@class='header']" position="replace">
+            <div class="header">
+                <t t-set="data_report_margin_top" t-value="1"/>
+                <t t-set="data_report_header_spacing" t-value="1"/>
+                <t t-set="data_report_dpi" t-value="110"/>
+                <img style="position: relative; z-index: 5; width:100%;"
+                                 src="/report_invoice/static/img/header1.png"/>
+            </div>
+          </xpath>
+        </template>
+         <template id="external_layout_footer1" inherit_id="report.external_layout_footer">
+          <xpath expr="//div[@class='footer']" position="replace">
+            <div class="footer">
+                <t t-set="data_report_margin_top" t-value="1"/>
+                <t t-set="data_report_header_spacing" t-value="1"/>
+                <t t-set="data_report_dpi" t-value="110"/>
+                <img style="position: relative; z-index: 5; width:100%;"
+                                 src="/report_invoice/static/img/footer.png"/>
+            </div>
+          </xpath>
+        </template>
+
+
+        <template id="report_saleorder_document_no_price"  inherit_id="sale.report_saleorder_document">
+             <xpath expr="//t[@t-call='report.external_layout']" position="attributes">
+                 <attribute name="t-call">
+                 </attribute>
+
+             </xpath>
+        </template>
+         <template id="report_saleorder_document_no_price"  inherit_id="sale.report_saleorder_document">
+             <xpath expr="//div[@class='page']" position="replace">
+
+
+                    <div class="page">
+                        <hr>
+                            <style type="text/css">
+                                 #watermark {
+                                        color: #d0caca;
+                                        font-size: 50pt;
+                                        font-family:"Karumbi";
+                                        -webkit-transform: rotate(-90deg);
+                                        -moz-transform: rotate(-90deg);
+                                        position: absolute;
+                                        width: 50%;
+                                        height: 50%;
+                                        margin: 0;
+                                        z-index: -1;
+                                        left:-265px;
+                                        top:450px;
+                                }
+                            </style>
+                            <style type="text/css">
+                                f1 {
+                                font-size:60;
+                                color: red;
+                                font-family:AlArabiya;
+
+                                }
+                                f2 {
+                                font-size: 60;
+                                color: #3d3d56;
+                                font-family:AlArabiya;
+
+                                }
+                                f3 {
+                                font-size:12;
+                                color: red;
+                                font-family:AlArabiya;
+
+                                }
+                                f4 {
+                                font-size: 15;
+                                color: #1a1d49;
+                                font-family:AlArabiya;
+
+                                }
+                                table {
+                                      font-family: AlArabiya;
+                                      border-collapse: collapse;
+                                      width: 100%;
+                                    }
+
+                                    th {
+                                      border: 1px solid #3d3d56;
+                                      text-align: left;
+                                      padding: 8px;
+                                    }
+                                    td{
+                                      border: 1px solid white;
+                                      border-bottom: 1px solid black;
+                                      text-align: left;
+                                      padding: 8px;
+                                    }
+                                }
+
+                            </style>
+                            <div id="watermark">
+                                    <p>‫‪Loram‬‬ ‫‪Trading‬‬ ‫‪Est</p>
+                            </div>
+                        </hr>
+                        <div class="row">
+                            <div class="row">
+                                <h2 style="text-align:center;">
+                                    <f2>Quotation No. </f2>
+                                    <f1><span t-field="doc.id"/></f1>
+                                    <f2>عرض أسعار رقم</f2>
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="row mt32 mb32" id="informations">
+                             <div class="col-xs-2">
+                                <h1><f3><div>تاريخ العرض</div></f3></h1>
+                                <h1><f3><div>Quote Date‬‬</div></f3></h1>
+                                <f4><span t-esc="datetime.datetime.now().strftime('%d %B,%Y')"></span></f4>
+                                <!--<f4><div t-field="doc.date_order"/></f4>-->
+                            </div>
+                            <div class="col-xs-2">
+                                <h1><f3><div>صالحية العرض‬</div></f3></h1>
+                                <h1><f3><div>‫‪Quote‬‬ ‫‪Validity‬‬‬‬</div></f3></h1>
+                                <f4><div >‫‪30‬‬ ‫‪days‬‬ ‫‪from‬‬ ‫‪date‬</div></f4>
+                                <f4><div> 30 يوما من تاريخه</div></f4>
+
+                            </div>
+                            <div class="col-xs-2">
+                                <h1><f3><div>رقم الطلب/تاريخه </div></f3></h1>
+                                <h1><f3><div>‫‪RFQ‬‬ ‫‪No.\Date‬‬</div></f3></h1>
+                                <f4>RFQ: <span t-field="doc.name"/></f4>
+                                <f4><span t-field="doc.date_order" t-options="{'widget': 'date'}" ></span></f4>
+                            </div>
+                            <div class="col-xs-2">
+                                <h1><f3><strong>العميل</strong></f3></h1>
+                                <h1><f3><strong>Customer</strong></f3></h1>
+                                <f4><div t-field="doc.partner_id.name"/></f4>
+                                <f4><div t-field="doc.partner_id.phone"/></f4>
+                            </div>
+                            <div class="col-xs-3">
+                                <h1><f3><strong>بطلب مـــــن</strong></f3></h1>
+                                <h1><f3><strong>Requested By</strong></f3></h1>
+                                <f4><div t-field="doc.partner_id"
+                                         t-options='{"widget": "contact", "fields": ["name","email"], "no_marker": True}' /></f4>
+                            </div>
+                        </div>
+
+                        <!-- Is there a discount on at least one line? -->
+                        <t t-set="display_discount" t-value="any([l.discount for l in doc.order_line])"/>
+
+                        <t t-foreach="doc.order_lines_layouted()" t-as="page">
+                            <table class="table table-condensed">
+                                <thead style="background-color:#3d3d56;color:white">
+                                    <tr>
+                                        <th># </th>
+                                        <th>
+                                            <h5>الكود </h5>
+                                            <h5>code</h5>
+                                        </th>
+                                        <th>
+                                            <h5>الوصـــف </h5>
+                                            <h5>Description</h5>
+                                        </th>
+                                        <th class="text-right">
+                                            <h5>الكمية</h5>
+                                            <h5>Quantity</h5>
+                                        </th>
+                                        <th class="text-right">
+                                             <h5> انتهاء الصلاحية</h5>
+                                            <h5>EXP.date</h5>
+                                        </th>
+                                        <th class="text-right">
+                                             <h5> سعر الوحدة</h5>
+                                            <h5>U.Price</h5>
+
+                                        </th>
+                                        <!--<th t-if="display_discount" class="text-right" >Disc.(%)</th>-->
+                                        <!--<th class="text-right">Total</th>-->
+                                        <!--<th class="text-right" groups="sale.group_show_price_subtotal">Price</th>-->
+                                        <th class="text-right price_tax_included"><h5> الاجمالى</h5> <h5>Total</h5></th>
+                                    </tr>
+                               </thead>
+                               <tbody class="sale_tbody">
+                                    <t t-foreach="page" t-as="layout_category">
+
+                                        <t t-if="layout_category_size > 1 or page_size > 1" groups="sale.group_sale_layout">
+                                            <tr class="active">
+                                                <td colspan="7" style="font-weight: bold; border-bottom: 1px solid black;">&amp;bull;
+                                                    <t t-esc="layout_category['name']"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+
+                                        <!-- Lines associated -->
+                                        <t t-foreach="layout_category['lines']" t-as="l">
+                                            <tr style="border: 1px solid #3d3d56;">
+                                                <td><span t-esc="l_index+1"/></td>
+                                                <td><span t-field="l.product_id.default_code"/></td>
+                                                <td><span t-field="l.name"/></td>
+                                                <td class="text-right">
+                                                    <span t-field="l.product_uom_qty"/>
+                                                    <span t-field="l.product_uom" groups="product.group_uom"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-field="l.product_id.exp_date"/>
+                                                </td>
+
+                                                <td class="text-right">
+                                                    <span t-field="l.price_unit"/>
+                                                </td>
+                                                <!--<td t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line">-->
+                                                    <!--<span t-field="l.discount"/>-->
+                                                <!--</td>-->
+                                                <!--<td class="text-right">-->
+                                                    <!--<span t-esc="', '.join(map(lambda x: (x.description or x.name), l.tax_id))"/>-->
+                                                <!--</td>-->
+                                                <!--<td class="text-right" groups="sale.group_show_price_subtotal">-->
+                                                    <!--<span t-field="l.price_subtotal"-->
+                                                        <!--t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>-->
+                                                <!--</td>-->
+                                                <td class="text-right">---</td>
+
+                                                <td class="text-right" groups="sale.group_show_price_total">
+                                                    <span t-field="l.price_total"
+                                                        t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>
+                                                </td>
+                                            </tr>
+                                        </t>
+
+                                        <t t-if="(layout_category_size > 1 or page_size > 1) and layout_category['subtotal']" groups="sale.group_sale_layout">
+                                            <tr class="text-right">
+                                                <td colspan="6">
+                                                    <strong>Subtotal: </strong>
+                                                    <t t-set="subtotal" t-value="sum(line.price_subtotal for line in layout_category['lines'])"/>
+                                                    <span t-esc="subtotal" t-options="{'widget': 'monetary', 'display_currency': doc.pricelist_id.currency_id}"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+
+                                    </t>
+                                </tbody>
+                            </table>
+
+                            <t t-if="page_index &lt; page_size - 1" groups="sale.group_sale_layout">
+                                <p style="page-break-before:always;"> </p>
+                            </t>
+                        </t>
+
+                        <div class="row" name="total">
+                            <div class="col-xs-4 pull-right">
+                                <table class="table table-condensed">
+                                    <tr class="border-black">
+                                        <td><strong>Total Without Taxes الاجمالى قبل الضريبة</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="doc.amount_untaxed"
+                                                t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                    <t t-foreach="doc._get_tax_amount_by_group()" t-as="amount_by_group">
+                                        <tr>
+                                            <td><span t-esc="amount_by_group[0] or 'Taxes'"/></td>
+                                            <td class="text-right">
+                                                <span t-esc="amount_by_group[1]"
+                                                    t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <tr class="border-black">
+                                        <td><strong>Total الاجمالى</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="doc.amount_total"
+                                                t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row mt32 mb32" id="informations">
+                            <div class="col-xs-2">
+                                <h1><f3><strong>المرفقات</strong></f3></h1>
+                                <h1><f3><strong>ِAttachments</strong></f3></h1>
+                                <f4>الكتالوج</f4>
+                            </div>
+                            <div class="col-xs-2">
+                                <h1><f3><div>موعد التسليم </div></f3></h1>
+                                <h1><f3><div>Delivery Time</div></f3></h1>
+                                <f4>خلال(90)يوم</f4>
+
+                            </div>
+                            <div class="col-xs-2">
+                                <h1><f3><div>جهة الصنع</div></f3></h1>
+                                <h1><f3><div>Manufacturing‬‬‬‬</div></f3></h1>
+                                <f4><div >XXXXXX‬</div></f4>
+                            </div>
+
+                            <div class="col-xs-2">
+                                 <h1><f3><div>شروط السداد</div></f3></h1>
+                                <h1><f3><div>Payment Terms‬‬</div></f3></h1>
+                                <f4><span t-field="doc.payment_term_id.note"></span></f4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <hr>
+                                <h4>
+                                    <li style ="text-align:left;color:red;">Notes</li>
+
+                                    <li style ="text-align:right;color:red;">  ملاحظات</li>
+                                </h4>
+                            </hr>
+                        </div>
+                        <div class="col-xs-3" style="text-align:center;">
+                                    <p><f2><div> مدير المبيعات</div></f2></p>
+                                    <p><f2><div>Manufacturing‬‬‬‬</div></f2></p>
+                                    <p><div >________‬</div></p>
+                        </div>
+                        <div class="col-xs-3">
+                                    <p><f2><div> الرئيس التنفيذى</div></f2></p>
+                                    <p><f2><div>CEO‬‬‬‬</div></f2></p>
+                                    <p><div >________‬</div></p>
+                        </div>
+                    </div>
+
+      	    </xpath>
+        </template>
+
+    </data>
+</odoo>

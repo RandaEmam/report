@@ -1,0 +1,308 @@
+<odoo>
+    <data>
+         <report
+                id="account_invoices_new"
+                model="account.invoice"
+                string="Invoices NewDesign"
+                report_type="qweb-pdf"
+                name="report_invoice.report_invoice_new"
+                file="report_invoice.report_invoice_new"
+        />
+         <template id="inherit_account_invoice_document_last_20"  inherit_id="account.report_invoice_document" primary="True">
+             <xpath expr="//div[@class='page']" position="replace">
+                 <div class="page">
+                        <hr>
+                            <style type="text/css">
+                                 #watermark {
+                                        color: #d0caca;
+                                        font-size: 50pt;
+                                        font-family:"Karumbi";
+                                        -webkit-transform: rotate(-90deg);
+                                        -moz-transform: rotate(-90deg);
+                                        position: absolute;
+                                        width: 35%;
+                                        height: 50%;
+                                        margin: 0;
+                                        z-index: -1;
+                                        left:-265px;
+                                        top:500px;
+                                }
+                            </style>
+                            <style type="text/css">
+                                f1 {
+                                font-size:60;
+                                color: red;
+                                font-family:AlArabiya;
+
+                                }
+                                f2 {
+                                font-size: 60;
+                                color: #3d3d56;
+                                font-family:AlArabiya;
+
+                                }
+                                f3 {
+                                font-size:12;
+                                color: red;
+                                font-family:AlArabiya;
+
+                                }
+                                f4 {
+                                font-size: 15;
+                                color: #1a1d49;
+                                font-family:AlArabiya;
+
+                                }
+                                table {
+                                      font-family: AlArabiya;
+                                      border-collapse: collapse;
+                                      width: 100%;
+                                    }
+
+                                    th {
+                                      border: 1px solid #3d3d56;
+                                      text-align: left;
+                                      padding: 8px;
+                                    }
+                                    td{
+                                      border: 1px solid white;
+                                      border-bottom: 1px solid black;
+                                      text-align: left;
+                                      padding: 8px;
+                                    }
+                                }
+
+                            </style>
+                            <div id="watermark">
+                                    <p>‫‪Loram‬‬ ‫‪Trading‬‬ ‫‪Est</p>
+                            </div>
+                        </hr>
+                        <div class="row">
+                               <div name="invoice_address" >
+                                    <!--<address t-field="o.partner_id"-->
+                                        <!--t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />-->
+                                    <!--<span t-if="o.partner_id.vat">TIN: <span t-field="o.partner_id.vat"/></span>-->
+                                </div>
+                        </div>
+                        <!--<h2>-->
+                            <!--<span t-if="o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">Invoice</span>-->
+                            <!--<span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>-->
+                            <!--<span t-if="o.type == 'out_invoice' and o.state == 'draft'">Draft Invoice</span>-->
+                            <!--<span t-if="o.type == 'out_invoice' and o.state == 'cancel'">Cancelled Invoice</span>-->
+                            <!--<span t-if="o.type == 'out_refund'">Refund</span>-->
+                            <!--<span t-if="o.type == 'in_refund'">Vendor Refund</span>-->
+                            <!--<span t-if="o.type == 'in_invoice'">Vendor Bill</span>-->
+                            <!--<span t-field="o.number"/>-->
+                        <!--</h2>-->
+
+                        <div class="row">
+
+                                <h2 style="text-align:center;">
+                                    <f2>Invoice No. </f2>
+                                    <f1><span t-field="o.id"/></f1>
+                                    <f2>فاتورة رقم</f2>
+                                </h2>
+
+                        </div>
+                        <div class="row mt32 mb32" id="informations">
+                             <div class="col-xs-2">
+                                <h1><f3><div>تاريخ الفاتورة</div></f3></h1>
+                                <h1><f3><div>Invoice Date‬‬</div></f3></h1>
+                                <f4><span t-esc="datetime.datetime.now().strftime('%d %B,%Y')"></span></f4>
+                                <!--<f4><div t-field="doc.date_order"/></f4>-->
+                            </div>
+                            <div class="col-xs-2">
+                                <h1><f3><div>بيانات العرض‬</div></f3></h1>
+                                <h1><f3><div>‫‪Quote‬‬ Info</div></f3></h1>
+                                <f4>RFQ NO: <span t-field="o.origin"/></f4>
+                                <f4>Quot NO:/></f4>
+                                <f4><span t-field="o.date_invoice" t-options="{'widget': 'date'}" ></span></f4>
+
+                            </div>
+                            <div class="col-xs-2">
+                                <h1><f3><div>بيانات امر الشراء</div></f3></h1>
+                                <h1><f3><div>PO.Information‬‬</div></f3></h1>
+                                <f4>PO.</f4>
+                                <f4>PO.date</f4>
+                            </div>
+                            <div class="col-xs-2">
+                                <h1><f3><strong>العميل</strong></f3></h1>
+                                <h1><f3><strong>Customer</strong></f3></h1>
+                                <f4><div t-field="o.partner_id.name"/></f4>
+                                <f4><div t-field="o.partner_id.phone"/></f4>
+                            </div>
+                            <div class="col-xs-3">
+                                <h1><f3><strong>المستلم</strong></f3></h1>
+                                <h1><f3><strong>Received By</strong></f3></h1>
+                                <f4><div t-field="o.partner_id"
+                                         t-options='{"widget": "contact", "fields": ["name","email"], "no_marker": True}' /></f4>
+                            </div>
+                        </div>
+                            <div name="reference" class="col-xs-2" >
+                                <!--<strong>Reference:</strong>-->
+                                <!--<p t-field="o.reference"/>-->
+                            </div>
+
+
+                        <!-- Is there a discount on at least one line? -->
+                        <!--<t t-set="display_discount" t-value="any([l.discount for l in doc.order_line])"/>-->
+
+                        <table class="table table-condensed">
+                                <thead style="background-color:#3d3d56;color:white">
+                                    <tr>
+                                        <th># </th>
+                                        <th>
+                                            <h5>الكود </h5>
+                                            <h5>code</h5>
+                                        </th>
+                                        <th>
+                                            <h5>الوصـــف </h5>
+                                            <h5>Description</h5>
+                                        </th>
+                                        <th class="text-right">
+                                            <h5>الكمية</h5>
+                                            <h5>Quantity</h5>
+                                        </th>
+                                        <th class="text-right">
+                                             <h5> انتهاء الصلاحية</h5>
+                                            <h5>EXP.date</h5>
+                                        </th>
+                                        <th class="text-right">
+                                             <h5> سعر الوحدة</h5>
+                                            <h5>U.Price</h5>
+
+                                        </th>
+                                        <!--<th t-if="display_discount" class="text-right" >Disc.(%)</th>-->
+                                        <!--<th class="text-right">Total</th>-->
+                                        <!--<th class="text-right" groups="sale.group_show_price_subtotal">Price</th>-->
+                                        <th class="text-right price_tax_included"><h5> الاجمالى</h5> <h5>Total</h5></th>
+                                    </tr>
+                               </thead>
+                               <tbody>
+                                   <tr style="border: 1px solid #3d3d56;">
+
+                                        <t t-foreach="o.invoice_line_ids" t-as="l">
+
+                                            <td><span t-esc="l_index+1"/></td>
+                                            <td><span t-field="l.product_id.default_code"/></td>
+                                            <td><span t-field="l.name"/></td>
+                                            <td class="text-right">
+                                                <span t-field="l.quantity"/>
+                                                <!--<span t-field="l.product_uom" groups="product.group_uom"/>-->
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-field="l.product_id.exp_date"/>
+                                            </td>
+
+                                            <td class="text-right">
+                                                <span t-field="l.price_unit"/>
+                                            </td>
+                                            <!--<td t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line">-->
+                                                <!--<span t-field="l.discount"/>-->
+                                            <!--</td>-->
+                                            <!--<td class="text-right">-->
+                                                <!--<span t-esc="', '.join(map(lambda x: (x.description or x.name), l.tax_id))"/>-->
+                                            <!--</td>-->
+                                            <!--<td class="text-right" groups="sale.group_show_price_subtotal">-->
+                                                <!--<span t-field="l.price_subtotal"-->
+                                                    <!--t-options='{"widget": "monetary", "display_currency": doc.pricelist_id.currency_id}'/>-->
+                                            <!--</td>-->
+                                            <td class="text-right">---</td>
+
+                                            <td class="text-right" groups="sale.group_show_price_total">
+                                                <span t-field="l.price_total"
+                                                    t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                            </td>
+                                        </t>
+
+                                            <t t-if="(layout_category_size > 1 or page_size > 1) and layout_category['subtotal']">
+                                                <tr class="text-right">
+                                                    <td colspan="6">
+                                                        <strong>Subtotal: </strong>
+                                                        <t t-set="subtotal" t-value="sum(line.price_subtotal for line in layout_category['lines'])"/>
+                                                        <span t-esc="subtotal" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                    </tr>
+
+                               </tbody>
+                            </table>
+
+                        <t t-if="page_index &lt; page_size - 1" groups="sale.group_sale_layout">
+                                <p style="page-break-before:always;"> </p>
+                        </t>
+
+
+                        <div class="row" name="total">
+                            <div class="col-xs-4 pull-right">
+                                <table class="table table-condensed">
+                                    <tr class="border-black">
+                                        <td><strong>Total Without Taxes الاجمالى قبل الضريبة</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.amount_untaxed"
+                                                t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                    <t t-foreach="o._get_tax_amount_by_group()" t-as="amount_by_group">
+                                        <tr>
+                                            <td><span t-esc="amount_by_group[0] or 'Taxes'"/></td>
+                                            <td class="text-right">
+                                                <span t-esc="amount_by_group[1]"
+                                                    t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <tr class="border-black">
+                                        <td><strong>Total الاجمالى</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.amount_total"
+                                                t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td style ="text-align:left;color:red; border:1px solid #white;">Notes</td>
+
+                                            <td style ="text-align:right;color:red;">  ملاحظات</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="border:1px dotted #3d3d56;;width:100%;">
+                                        <tr>
+                                            <td>
+                                                <span t-field="o.payment_term_id.note"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                        </div>
+                        <div class="col-xs-3" style="text-align:center;">
+                                    <p><f2><div> مدير المبيعات</div></f2></p>
+                                    <p><f2><div>Manufacturing‬‬‬‬</div></f2></p>
+                                    <p><div >________‬</div></p>
+                        </div>
+                        <div class="col-xs-3">
+                                    <p><f2><div> الرئيس التنفيذى</div></f2></p>
+                                    <p><f2><div>CEO‬‬‬‬</div></f2></p>
+                                    <p><div >________‬</div></p>
+                        </div>
+                    </div>
+
+
+      	    </xpath>
+        </template>
+        <template id="report_invoice_new" inherit_id="account.report_invoice" primary="True">
+            <xpath expr="//t[@t-call='account.report_invoice_document']" position="replace">
+              <t t-call="report_invoice.inherit_account_invoice_document_last_20" t-lang="o.partner_id.lang"/>
+          </xpath>
+
+        </template>
+    </data>
+</odoo>
